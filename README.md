@@ -35,13 +35,15 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 
 - `POST /api/auth/register` creates a student account in an unverified state.
 - `POST /api/auth/login` authenticates verified students and the seeded admin.
+- `POST /api/auth/verify-otp` verifies a six-digit email code and activates a student.
+- `POST /api/auth/resend-otp` issues a replacement code subject to cooldown controls.
 - `GET /api/auth/me` returns the authenticated user without password data.
 - JWT middleware and backend role enforcement protect `/api/student/**` and `/api/admin/**`.
 - DTO validation and structured exception responses are enabled.
 - Normalized skills, flexible student profiles, companies, and internships are modeled for multiple academic domains.
 - `MatchingEngine` provides deterministic, explainable weighted matching and has a cross-domain unit test.
 
-The next slices add email OTP verification, password reset, profile/skill APIs, internship/company CRUD, recommendation persistence, applications, and notifications.
+OTP records are stored as BCrypt hashes, expire after ten minutes, allow five attempts, and are never returned or logged. Configure `MAIL_HOST` and related mail variables to deliver messages; local development safely stores the verification state without attempting SMTP when no host is configured. The next slices add password reset, profile/skill APIs, internship/company CRUD, recommendation persistence, applications, and notifications.
 
 ## Tests
 
