@@ -45,13 +45,17 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 - Admin company and internship CRUD is available under `/api/admin/companies` and `/api/admin/internships`.
 - `GET /api/internships/{id}` returns an active internship detail response.
 - `GET /api/recommendations` refreshes deterministic profile matches and returns ranked, persisted recommendations with score explanations.
+- `POST/GET /api/applications` supports student applications and application tracking; duplicate, closed, inactive, and expired applications are rejected.
+- `GET /api/admin/applications` and `PATCH /api/admin/applications/{id}/status` support admin review and status updates.
+- `GET /api/notifications`, `GET /api/notifications/unread-count`, and `PATCH /api/notifications/{id}/read` support student notifications.
+- Application submission and status changes create student notifications automatically.
 - `GET /api/auth/me` returns the authenticated user without password data.
 - JWT middleware and backend role enforcement protect `/api/student/**` and `/api/admin/**`.
 - DTO validation and structured exception responses are enabled.
 - Normalized skills, flexible student profiles, companies, and internships are modeled for multiple academic domains.
 - `MatchingEngine` provides deterministic, explainable weighted matching and has a cross-domain unit test.
 
-OTP and password-reset records are stored as BCrypt hashes, expire after ten minutes, allow five attempts, and are never returned or logged. Configure `MAIL_HOST` and related mail variables to deliver messages; local development safely stores the verification state without attempting SMTP when no host is configured. The next slices add profile/skill APIs, internship/company CRUD, recommendation persistence, applications, and notifications.
+OTP and password-reset records are stored as BCrypt hashes, expire after ten minutes, allow five attempts, and are never returned or logged. Configure `MAIL_HOST` and related mail variables to deliver messages; local development safely stores the verification state without attempting SMTP when no host is configured.
 
 ## Tests
 

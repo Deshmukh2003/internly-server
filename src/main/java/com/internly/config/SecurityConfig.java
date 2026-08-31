@@ -14,7 +14,7 @@ public class SecurityConfig {
         http.csrf(c -> c.disable()).cors(c -> c.configurationSource(corsConfiguration(origins)))
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                .requestMatchers("/api/admin/**").hasRole("ADMIN").requestMatchers("/api/student/**").hasRole("STUDENT").anyRequest().authenticated())
+                .requestMatchers("/api/admin/**").hasRole("ADMIN").requestMatchers("/api/student/**", "/api/applications/**", "/api/recommendations/**", "/api/internships/**", "/api/notifications/**").hasRole("STUDENT").anyRequest().authenticated())
             .addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
