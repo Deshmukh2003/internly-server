@@ -10,7 +10,14 @@ public class EmailService {
         JavaMailSender mailSender = sender.getIfAvailable();
         if (mailSender == null || host.isBlank()) return;
         SimpleMailMessage message = new SimpleMailMessage(); message.setTo(email); message.setSubject("Verify your Internly account");
-        message.setText("Your Internly verification code expires in 10 minutes. If you did not request this, ignore this email.");
+        message.setText("Your Internly verification code is " + code + ". It expires in 10 minutes. If you did not request this, ignore this email.");
+        mailSender.send(message);
+    }
+    public void sendPasswordResetCode(String email, String code) {
+        JavaMailSender mailSender = sender.getIfAvailable();
+        if (mailSender == null || host.isBlank()) return;
+        SimpleMailMessage message = new SimpleMailMessage(); message.setTo(email); message.setSubject("Reset your Internly password");
+        message.setText("Your Internly password reset code is " + code + ". It expires in 10 minutes. If you did not request this, ignore this email.");
         mailSender.send(message);
     }
 }

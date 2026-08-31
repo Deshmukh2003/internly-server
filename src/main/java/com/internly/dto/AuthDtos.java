@@ -8,6 +8,8 @@ public final class AuthDtos {
     public record RegisterRequest(@NotBlank @Email String email, @NotBlank @Size(min = 8, max = 128) String password) {}
     public record VerifyOtpRequest(@NotBlank @Email String email, @NotBlank @Pattern(regexp = "\\d{6}") String code) {}
     public record ResendOtpRequest(@NotBlank @Email String email) {}
+    public record ForgotPasswordRequest(@NotBlank @Email String email) {}
+    public record ResetPasswordRequest(@NotBlank @Email String email, @NotBlank @Pattern(regexp = "\\d{6}") String code, @NotBlank @Size(min = 8, max = 128) String newPassword) {}
     public record LoginResponse(String token, String tokenType, Long userId, String email, String role) {}
     public record UserResponse(Long id, String email, String role, boolean verified) {}
 }
