@@ -9,5 +9,6 @@ public class StudentProfile {
     @Column(length=120) private String fullName; @Column(length=30) private String mobile; @Column(length=120) private String domain;
     @Column(length=120) private String qualification; @Column(length=160) private String college; private Integer graduationYear;
     @Column(length=1000) private String interests;
+    private String resumeFileName; private String resumeStorageKey; private java.time.Instant resumeUploadedAt;
     @ManyToMany(fetch=FetchType.LAZY) @JoinTable(name="student_skills", joinColumns=@JoinColumn(name="student_id"), inverseJoinColumns=@JoinColumn(name="skill_id")) @Builder.Default private Set<Skill> skills = new HashSet<>();
 }

@@ -6,3 +6,4 @@ target/
 *.iml
 .idea/
 application-local.yml
+uploads/

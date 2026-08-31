@@ -10,4 +10,6 @@ public class StudentProfileController {
     @GetMapping("/skills") public ProfileResponse getSkills(Authentication auth) { return profiles.get(auth.getName()); }
     @PostMapping("/skills") public SkillResponse addSkill(Authentication auth, @Valid @RequestBody SkillRequest request) { return profiles.addSkill(auth.getName(), request); }
     @DeleteMapping("/skills/{skillId}") public void removeSkill(Authentication auth, @PathVariable Long skillId) { profiles.removeSkill(auth.getName(), skillId); }
+    @PostMapping(value="/resume", consumes="multipart/form-data") public ProfileResponse uploadResume(Authentication auth, @RequestPart("file") org.springframework.web.multipart.MultipartFile file) { return profiles.uploadResume(auth.getName(), file); }
+    @DeleteMapping("/resume") public void deleteResume(Authentication auth) { profiles.deleteResume(auth.getName()); }
 }

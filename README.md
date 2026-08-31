@@ -41,6 +41,7 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 - `POST /api/auth/reset-password` consumes a valid reset code and BCrypt-hashes the new password.
 - `GET/PUT /api/student/profile` reads or updates the authenticated student's profile.
 - `GET /api/student/skills`, `POST /api/student/skills`, and `DELETE /api/student/skills/{skillId}` manage normalized student skills.
+- `POST /api/student/resume` accepts PDF/DOC/DOCX resumes up to 5 MB; `DELETE /api/student/resume` removes the stored resume.
 - `GET /api/internships` provides paginated active internships with optional `search`, `domain`, and `location` filters.
 - Admin company and internship CRUD is available under `/api/admin/companies` and `/api/admin/internships`.
 - `GET /api/internships/{id}` returns an active internship detail response.

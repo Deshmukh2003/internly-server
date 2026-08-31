@@ -7,5 +7,5 @@ public final class StudentDtos {
     public record ProfileRequest(@NotBlank @Size(max=120) String fullName, @Pattern(regexp="^[0-9+() -]{7,20}$") String mobile, @Size(max=120) String domain, @Size(max=120) String qualification, @Size(max=160) String college, @Min(1950) @Max(2200) Integer graduationYear, @Size(max=1000) String interests) {}
     public record SkillRequest(@NotBlank @Size(max=80) String name) {}
     public record SkillResponse(Long id, String name) {}
-    public record ProfileResponse(Long userId, String email, String fullName, String mobile, String domain, String qualification, String college, Integer graduationYear, String interests, List<SkillResponse> skills) {}
+    public record ProfileResponse(Long userId, String email, String fullName, String mobile, String domain, String qualification, String college, Integer graduationYear, String interests, String resumeFileName, java.time.Instant resumeUploadedAt, List<SkillResponse> skills) {}
 }
