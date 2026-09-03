@@ -1,6 +1,7 @@
 package com.internly.controller;
 
 import com.internly.dto.InternshipDtos.*;
+import com.internly.dto.DummyDataDtos.DummyDataStatus;
 import com.internly.service.*;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -13,13 +14,16 @@ public class AdminManagementController {
 
   private final CompanyService companies;
   private final InternshipService internships;
+  private final DummyDataService dummyData;
 
   public AdminManagementController(
     CompanyService companies,
-    InternshipService internships
+    InternshipService internships,
+    DummyDataService dummyData
   ) {
     this.companies = companies;
     this.internships = internships;
+    this.dummyData = dummyData;
   }
 
   @GetMapping("/companies")
@@ -69,4 +73,13 @@ public class AdminManagementController {
   public void deactivateInternship(@PathVariable Long id) {
     internships.deactivate(id);
   }
+
+  @GetMapping("/dummy-data")
+  public DummyDataStatus dummyDataStatus() { return dummyData.status(); }
+
+  @PostMapping("/dummy-data")
+  public DummyDataStatus addDummyData() { return dummyData.add(); }
+
+  @DeleteMapping("/dummy-data")
+  public DummyDataStatus removeDummyData() { return dummyData.remove(); }
 }

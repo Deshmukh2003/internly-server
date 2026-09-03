@@ -25,5 +25,9 @@ public class Company {
   private String website;
   private String location;
   private String industry;
+
+  @Column(name = "data_set_key", length = 64)
+  private String dataSetKey;
+
   private boolean active = true;
 }

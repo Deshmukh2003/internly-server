@@ -1,6 +1,7 @@
 package com.internly.repository;
 
 import com.internly.entity.Application;
+import java.util.List;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +10,9 @@ public interface ApplicationRepository
   extends JpaRepository<Application, Long>
 {
   boolean existsByStudentIdAndInternshipId(Long studentId, Long internshipId);
+  @Modifying
+  @Query("delete from Application a where a.internship.id in :internshipIds")
+  void deleteByInternshipIds(@Param("internshipIds") List<Long> internshipIds);
 
   @Query(
     "select a from Application a join fetch a.internship i join fetch i.company where a.student.id = :studentId order by a.appliedAt desc"

@@ -27,6 +27,10 @@ public class Notification {
   @JoinColumn(name = "student_id")
   private User student;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "internship_id")
+  private Internship internship;
+
   @Column(nullable = false, length = 160)
   private String title;
 

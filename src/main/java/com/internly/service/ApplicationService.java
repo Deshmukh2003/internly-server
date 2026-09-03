@@ -76,6 +76,7 @@ public class ApplicationService {
     );
     notifications.create(
       student,
+      internship,
       "Application submitted",
       "Your application for " +
         internship.getTitle() +
@@ -109,6 +110,7 @@ public class ApplicationService {
     ApplicationResponse result = response(applications.save(application));
     notifications.create(
       application.getStudent(),
+      application.getInternship(),
       "Application status updated",
       "Your application for " +
         application.getInternship().getTitle() +

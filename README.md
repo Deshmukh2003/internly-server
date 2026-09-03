@@ -48,6 +48,7 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 - `GET /api/recommendations` refreshes deterministic profile matches and returns ranked, persisted recommendations with score explanations.
 - `POST/GET /api/applications` supports student applications and application tracking; duplicate, closed, inactive, expired, and incomplete-profile applications are rejected.
 - `GET /api/admin/applications` and `PATCH /api/admin/applications/{id}/status` support admin review and status updates.
+- `GET/POST/DELETE /api/admin/dummy-data` reports, creates, and removes the tagged end-to-end fixture dataset of 25 companies and 75 internships, including dependent records.
 - `GET /api/notifications`, `GET /api/notifications/unread-count`, and `PATCH /api/notifications/{id}/read` support student notifications.
 - Application submission and status changes create student notifications automatically.
 - Protected endpoints return structured JSON `401` and `403` responses instead of framework HTML/error payloads.
@@ -55,6 +56,7 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 - JWT middleware and backend role enforcement protect `/api/student/**` and `/api/admin/**`.
 - DTO validation and structured exception responses are enabled.
 - Normalized skills, controlled student profile choices, companies, and internships are modeled for multiple academic domains; internship eligible branches are stored as a dedicated collection.
+- Internship, company, and notification persistence includes the relationships needed to safely clean up generated test data.
 - `MatchingEngine` provides deterministic, explainable weighted matching and has a cross-domain unit test.
 
 OTP and password-reset records are stored as BCrypt hashes, expire after ten minutes, allow five attempts, and are never returned or logged. Configure `MAIL_HOST` and related mail variables to deliver messages; local development safely stores the verification state without attempting SMTP when no host is configured.

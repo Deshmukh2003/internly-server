@@ -8,6 +8,9 @@ import org.springframework.data.repository.query.Param;
 public interface NotificationRepository
   extends JpaRepository<Notification, Long>
 {
+  @Modifying
+  @Query("delete from Notification n where n.internship.id in :internshipIds")
+  void deleteByInternshipIds(@Param("internshipIds") java.util.List<Long> internshipIds);
   @Query(
     "select n from Notification n where n.student.id = :studentId order by n.createdAt desc"
   )

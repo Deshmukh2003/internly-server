@@ -13,7 +13,7 @@ class MatchingEngineTest {
     StudentProfile student = StudentProfile.builder()
       .domain("Mechanical Engineering")
       .qualification("B.Tech")
-      .interests("CAD design")
+      .interests("CAD Design Intern")
       .skills(
         Set.of(
           Skill.builder().name("AutoCAD").normalizedName("autocad").build(),
@@ -28,6 +28,7 @@ class MatchingEngineTest {
       .title("CAD Design Intern")
       .domain("Mechanical")
       .qualification("B.Tech")
+      .eligibleBranches(Set.of("Mechanical Engineering"))
       .requiredSkills(
         Set.of(
           Skill.builder().name("AutoCAD").normalizedName("autocad").build(),

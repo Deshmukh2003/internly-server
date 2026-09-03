@@ -1,11 +1,13 @@
 package com.internly.repository;
 
 import com.internly.entity.Internship;
+import java.util.List;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 public interface InternshipRepository extends JpaRepository<Internship, Long> {
+  List<Internship> findAllByCompanyDataSetKey(String dataSetKey);
   Page<Internship> findByStatus(Internship.Status status, Pageable pageable);
   java.util.Optional<Internship> findByIdAndStatus(
     Long id,

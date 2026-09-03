@@ -24,9 +24,15 @@ public class NotificationService {
 
   @Transactional
   public void create(User student, String title, String message) {
+    create(student, null, title, message);
+  }
+
+  @Transactional
+  public void create(User student, Internship internship, String title, String message) {
     notifications.save(
       Notification.builder()
         .student(student)
+        .internship(internship)
         .title(title)
         .message(message)
         .build()
