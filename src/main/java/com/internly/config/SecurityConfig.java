@@ -15,6 +15,7 @@ public class SecurityConfig {
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(a -> a.requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN").requestMatchers("/api/student/**", "/api/applications/**", "/api/recommendations/**", "/api/internships/**", "/api/notifications/**").hasRole("STUDENT").anyRequest().authenticated())
+            .exceptionHandling(e -> e.authenticationEntryPoint((request, response, exception) -> { response.setStatus(401); response.setContentType("application/json"); response.getWriter().write("{\"status\":401,\"message\":\"Authentication required\"}"); }).accessDeniedHandler((request, response, exception) -> { response.setStatus(403); response.setContentType("application/json"); response.getWriter().write("{\"status\":403,\"message\":\"You do not have permission to access this resource\"}"); }))
             .addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

@@ -50,6 +50,7 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 - `GET /api/admin/applications` and `PATCH /api/admin/applications/{id}/status` support admin review and status updates.
 - `GET /api/notifications`, `GET /api/notifications/unread-count`, and `PATCH /api/notifications/{id}/read` support student notifications.
 - Application submission and status changes create student notifications automatically.
+- Protected endpoints return structured JSON `401` and `403` responses instead of framework HTML/error payloads.
 - `GET /api/auth/me` returns the authenticated user without password data.
 - JWT middleware and backend role enforcement protect `/api/student/**` and `/api/admin/**`.
 - DTO validation and structured exception responses are enabled.

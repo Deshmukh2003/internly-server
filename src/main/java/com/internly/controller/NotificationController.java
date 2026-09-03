@@ -1,5 +1,5 @@
 package com.internly.controller;
 
-import com.internly.dto.NotificationDtos.NotificationResponse; import com.internly.service.NotificationService; import org.springframework.data.domain.*; import org.springframework.security.core.Authentication; import org.springframework.web.bind.annotation.*;
+import com.internly.dto.NotificationDtos.NotificationResponse; import com.internly.service.NotificationService; import org.springframework.data.domain.*; import org.springframework.data.web.PageableDefault; import org.springframework.security.core.Authentication; import org.springframework.web.bind.annotation.*;
 
 @RestController @RequestMapping("/api/notifications") public class NotificationController { private final NotificationService notifications; public NotificationController(NotificationService notifications) { this.notifications=notifications; } @GetMapping public Page<NotificationResponse> list(Authentication auth,@PageableDefault(size=20) Pageable pageable) { return notifications.list(auth.getName(),pageable); } @GetMapping("/unread-count") public long unreadCount(Authentication auth) { return notifications.unreadCount(auth.getName()); } @PatchMapping("/{id}/read") public NotificationResponse markRead(Authentication auth,@PathVariable Long id) { return notifications.markRead(auth.getName(),id); } }

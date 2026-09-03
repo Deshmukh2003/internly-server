@@ -1,6 +1,6 @@
 package com.internly.controller;
 
-import com.internly.dto.InternshipDtos.InternshipResponse; import com.internly.service.InternshipService; import org.springframework.data.domain.*; import org.springframework.web.bind.annotation.*;
+import com.internly.dto.InternshipDtos.InternshipResponse; import com.internly.service.InternshipService; import org.springframework.data.domain.*; import org.springframework.data.web.PageableDefault; import org.springframework.web.bind.annotation.*;
 
 @RestController @RequestMapping("/api/internships") public class InternshipController {
     private final InternshipService internships; public InternshipController(InternshipService internships) { this.internships=internships; }

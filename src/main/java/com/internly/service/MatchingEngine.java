@@ -9,13 +9,15 @@ public class MatchingEngine {
         Set<String> required = internship.getRequiredSkills().stream().map(Skill::getNormalizedName).collect(Collectors.toSet());
         long matched = required.stream().filter(studentSkills::contains).count();
         double skill = required.isEmpty() ? 1 : (double) matched / required.size();
-        double domain = same(student.getDomain(), internship.getDomain()) || containsIgnoreCase(internship.getEligibleBranches(), student.getDomain()) ? 1 : 0;
-        double qualification = same(student.getQualification(), internship.getQualification()) || blank(internship.getQualification()) ? 1 : 0;
+        boolean domainMatched = same(student.getDomain(), internship.getDomain()) || containsIgnoreCase(internship.getEligibleBranches(), student.getDomain());
+        boolean qualificationMatched = same(student.getQualification(), internship.getQualification()) || blank(internship.getQualification());
+        double domain = domainMatched ? 1 : 0;
+        double qualification = qualificationMatched ? 1 : 0;
         double interest = interestMatch(student.getInterests(), internship.getTitle(), internship.getDomain());
         int score = (int) Math.round((skill * 0.50 + domain * 0.25 + qualification * 0.15 + interest * 0.10) * 100);
-        return new MatchResult(score, matched, required.size(), domain == 1, qualification == 1, "" + score + "% match — " + matched + "/" + required.size() + " required skills matched" + (domain == 1 ? ", domain matched" : ""));
+        return new MatchResult(score, matched, required.size(), domainMatched, qualificationMatched, "" + score + "% match — " + matched + "/" + required.size() + " required skills matched" + (domainMatched ? ", domain matched" : ""));
     }
-    private boolean interestMatch(String interests, String... values) { if (blank(interests)) return 0; String text=interests.toLowerCase(Locale.ROOT); return Arrays.stream(values).filter(Objects::nonNull).anyMatch(v -> text.contains(v.toLowerCase(Locale.ROOT))) ? 1 : 0; }
+    private double interestMatch(String interests, String... values) { if (blank(interests)) return 0; String text=interests.toLowerCase(Locale.ROOT); return Arrays.stream(values).filter(Objects::nonNull).anyMatch(v -> text.contains(v.toLowerCase(Locale.ROOT))) ? 1 : 0; }
     private boolean same(String a,String b) { return !blank(a) && !blank(b) && a.trim().equalsIgnoreCase(b.trim()); }
     private boolean containsIgnoreCase(String haystack,String needle) { return !blank(haystack) && !blank(needle) && haystack.toLowerCase(Locale.ROOT).contains(needle.trim().toLowerCase(Locale.ROOT)); }
     private boolean blank(String value) { return value == null || value.isBlank(); }
