@@ -33,7 +33,7 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 
 ## Current API and architecture
 
-- `POST /api/auth/register` creates a student account in an unverified state.
+- `POST /api/auth/register` creates a student account in an unverified state; existing unverified students resume OTP verification.
 - `POST /api/auth/login` authenticates verified students and the seeded admin.
 - `POST /api/auth/verify-otp` verifies a six-digit email code and activates a student.
 - `POST /api/auth/resend-otp` issues a replacement code subject to cooldown controls.
@@ -46,7 +46,7 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 - Admin company and internship CRUD is available under `/api/admin/companies` and `/api/admin/internships`.
 - `GET /api/internships/{id}` returns an active internship detail response.
 - `GET /api/recommendations` refreshes deterministic profile matches and returns ranked, persisted recommendations with score explanations.
-- `POST/GET /api/applications` supports student applications and application tracking; duplicate, closed, inactive, and expired applications are rejected.
+- `POST/GET /api/applications` supports student applications and application tracking; duplicate, closed, inactive, expired, and incomplete-profile applications are rejected.
 - `GET /api/admin/applications` and `PATCH /api/admin/applications/{id}/status` support admin review and status updates.
 - `GET /api/notifications`, `GET /api/notifications/unread-count`, and `PATCH /api/notifications/{id}/read` support student notifications.
 - Application submission and status changes create student notifications automatically.
@@ -54,7 +54,7 @@ Swagger UI is available at `/swagger-ui/index.html` after startup.
 - `GET /api/auth/me` returns the authenticated user without password data.
 - JWT middleware and backend role enforcement protect `/api/student/**` and `/api/admin/**`.
 - DTO validation and structured exception responses are enabled.
-- Normalized skills, flexible student profiles, companies, and internships are modeled for multiple academic domains.
+- Normalized skills, controlled student profile choices, companies, and internships are modeled for multiple academic domains; internship eligible branches are stored as a dedicated collection.
 - `MatchingEngine` provides deterministic, explainable weighted matching and has a cross-domain unit test.
 
 OTP and password-reset records are stored as BCrypt hashes, expire after ten minutes, allow five attempts, and are never returned or logged. Configure `MAIL_HOST` and related mail variables to deliver messages; local development safely stores the verification state without attempting SMTP when no host is configured.

@@ -31,11 +31,16 @@ public class AuthService {
   @Transactional
   public UserResponse register(RegisterRequest request) {
     String email = request.email().trim().toLowerCase();
-    if (
-      users.existsByEmailIgnoreCase(email)
-    ) throw new IllegalArgumentException(
-      "An account with this email already exists"
-    );
+    var existing = users.findByEmailIgnoreCase(email);
+    if (existing.isPresent()) {
+      User user = existing.get();
+      if (
+        !user.isVerified() && user.getRole() == User.Role.STUDENT
+      ) return toResponse(user);
+      throw new IllegalArgumentException(
+        "An account with this email already exists"
+      );
+    }
     User user = users.save(
       User.builder()
         .email(email)

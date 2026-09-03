@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ApplicationService {
 
   private final UserRepository users;
+  private final StudentProfileRepository profiles;
   private final InternshipRepository internships;
   private final ApplicationRepository applications;
   private final InternshipService internshipService;
@@ -21,12 +22,14 @@ public class ApplicationService {
 
   public ApplicationService(
     UserRepository users,
+    StudentProfileRepository profiles,
     InternshipRepository internships,
     ApplicationRepository applications,
     InternshipService internshipService,
     NotificationService notifications
   ) {
     this.users = users;
+    this.profiles = profiles;
     this.internships = internships;
     this.applications = applications;
     this.internshipService = internshipService;
@@ -39,6 +42,12 @@ public class ApplicationService {
     CreateApplicationRequest request
   ) {
     User student = users.findByEmailIgnoreCase(email).orElseThrow();
+    StudentProfile profile = profiles
+      .findByUserId(student.getId())
+      .orElse(null);
+    if (!isProfileComplete(profile)) throw new IllegalArgumentException(
+      "Complete your profile, add at least one skill, and upload your resume before applying"
+    );
     Internship internship = internships
       .findById(request.internshipId())
       .orElseThrow(() -> new IllegalArgumentException("Internship not found"));
@@ -128,7 +137,11 @@ public class ApplicationService {
       company,
       i.getDomain(),
       i.getQualification(),
-      i.getEligibleBranches(),
+      i
+        .getEligibleBranches()
+        .stream()
+        .sorted(String.CASE_INSENSITIVE_ORDER)
+        .toList(),
       i.getLocation(),
       i.getWorkMode(),
       i.getDurationWeeks(),
@@ -155,5 +168,22 @@ public class ApplicationService {
 
   private String clean(String value) {
     return value == null || value.isBlank() ? null : value.trim();
+  }
+
+  private boolean isProfileComplete(StudentProfile profile) {
+    return (
+      profile != null &&
+      !blank(profile.getFullName()) &&
+      !blank(profile.getDomain()) &&
+      !blank(profile.getQualification()) &&
+      !blank(profile.getCollege()) &&
+      profile.getGraduationYear() != null &&
+      !blank(profile.getResumeFileName()) &&
+      !profile.getSkills().isEmpty()
+    );
+  }
+
+  private boolean blank(String value) {
+    return value == null || value.isBlank();
   }
 }
